@@ -47,19 +47,31 @@ if (Meteor.isClient) {
   })
 
   Template.website_form.events({
-    "click .js-toggle-website-form":function(event){
+    "click .js-toggle-website-form":function(event) {
       $("#website_form").toggle('slow');
     },
-    "submit .js-save-website-form":function(event){
+    "submit .js-save-website-form":function(event, template) {
 
-      // here is an example of how to get the url out of the form:
+      var title = event.target.title.value;
       var url = event.target.url.value;
-      console.log("The url they entered is: "+url);
+      var description = event.target.url.value;
 
-      //  put your website saving code in here!
+      if (Meteor.user()) {
+        Websites.insert({
+          title: title,
+          url: url,
+          description: description,
+          createdOn: new Date(),
+          vote: 0
+        });
+      }
 
-      return false;// stop the form submit from reloading the page
+      $("#website_form").toggle('slow');
 
+      // Clean up form after send a link
+      template.find("form").reset();
+
+      return false;
     }
   });
 }
