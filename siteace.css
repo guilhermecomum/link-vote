@@ -1,4 +1,7 @@
-/* CSS declarations go here */
+.navbar .login {
+  padding: 15px;
+}
+
 .hidden_div{
-    display:none;
+  display:none;
 }
