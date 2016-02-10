@@ -52,26 +52,32 @@
 
 <!-- template that displays several website items -->
 <template name="website_list">
-  <ol>
+  <ul>
     {{#each websites}}
     {{>website_item}}
     {{/each}}
-  </ol>
+  </ul>
 </template>
 
 <!-- template that displays individual website entries -->
 <template name="website_item">
   <li>
-    <a href="{{url}}">{{title}}</a>
-    <p>
-      {{description}}
-    </p>
-    <a href="#" class="btn btn-default js-upvote">
-      <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
-    </a>
-    <a href="#" class="btn btn-default js-downvote">
-      <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
-    </a>
+    <div class="voting">
+      <a href="#" class="vote js-upvote">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+      </a>
+      <span class="score">{{votes}}</span>
+      <a href="#" class="vote js-downvote">
+        <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+      </a>
+    </div>
+    <div class="link">
+      <a href="{{url}}">{{title}}</a>
+      <p>
+        {{description}}
+      </p>
+    </div>
+
     <!-- you will be putting your up and down vote buttons in here! -->
   </li>
 </template>

@@ -30,6 +30,10 @@ if (Meteor.isClient) {
       var website_id = this._id;
       console.log("Up voting website with id "+website_id);
       // put the code in here to add a vote to a website!
+      Websites.update(
+        {_id: website_id},
+        {$inc: {votes: +1}}
+      );
 
       return false;// prevent the button from reloading the page
     },
@@ -41,10 +45,14 @@ if (Meteor.isClient) {
       console.log("Down voting website with id "+website_id);
 
       // put the code in here to remove a vote from a website!
+      Websites.update(
+        {_id: website_id},
+        {$inc: {votes: -1}}
+      );
 
       return false;// prevent the button from reloading the page
     }
-  })
+  });
 
   Template.website_form.events({
     "click .js-toggle-website-form":function(event) {
@@ -62,7 +70,7 @@ if (Meteor.isClient) {
           url: url,
           description: description,
           createdOn: new Date(),
-          vote: 0
+          votes: 0
         });
       }
 

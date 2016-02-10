@@ -5,3 +5,22 @@
 .hidden_div{
   display:none;
 }
+
+li {
+  list-style: none;
+}
+
+.voting, .link {
+  display: inline-block;
+}
+
+.voting {
+  border: 1px solid #DDD;
+  border-radius: 3px;
+  padding: 5px;
+}
+
+.vote {
+  display: block;
+  clear: both;
+}
