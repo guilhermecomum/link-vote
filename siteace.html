@@ -36,7 +36,7 @@
     <form class="js-save-website-form">
       <div class="form-group">
 	<label for="url">Site address</label>
-	<input type="text" class="form-control" id="url" placeholder="http://www.mysite.com">
+	<input type="text" class="form-control js-http-on" id="url" placeholder="http://www.mysite.com">
       </div>
       <div class="form-group">
 	<label for="title">Title</label>
@@ -56,6 +56,7 @@
 <template name="website_list">
   <div class="container">
     <ul class="websites">
+      {{> website_form}}
       {{#each websites}}
       {{>website_item}}
       {{/each}}

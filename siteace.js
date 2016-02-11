@@ -83,11 +83,12 @@ if (Meteor.isClient) {
     "click .js-toggle-website-form":function(event) {
       $("#website_form").toggle('slow');
     },
+
     "submit .js-save-website-form":function(event, template) {
 
-      var title = event.target.title.value;
       var url = event.target.url.value;
-      var description = event.target.url.value;
+      var title = event.target.title.value;
+      var description = event.target.description.value;
 
       if (Meteor.user()) {
         Websites.insert({
@@ -106,7 +107,23 @@ if (Meteor.isClient) {
       template.find("form").reset();
 
       return false;
+    },
+
+    "change .js-http-on":function(event) {
+      var url = event.target.value;
+
+      Meteor.call('getUrlData', url, function(err, result) {
+        var parsedHtml = $(result);
+        var title = parsedHtml.filter('title').text();
+        var description = parsedHtml.filter('meta[name="description"]').attr("content");
+
+        var form = $("form");
+        form.find('#title').val(title);
+        form.find('#description').val(description);
+      });
+
     }
+
   });
 }
 
@@ -143,4 +160,17 @@ if (Meteor.isServer) {
       });
     }
   });
+
+  Meteor.methods({
+    getUrlData: function(url) {
+      var response = HTTP.call( 'GET', url , {} );
+      if (response.statusCode === 200) {
+        return response.content;
+      } else {
+        throw new Meteor.Error('HTTP get status ' + response.statusCode);
+      }
+    }
+
+  });
 }
+
