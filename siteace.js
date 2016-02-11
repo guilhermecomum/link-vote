@@ -1,7 +1,29 @@
 Websites = new Mongo.Collection("websites");
 
+Router.configure({
+  layoutTemplate: 'ApplicationLayout'
+});
+
+Router.route('/', function () {
+  this.render('website_list', {
+    to:"main"
+  });
+});
+
+Router.route('/link/:_id', function () {
+  this.render('website_link', {
+    to: "main",
+    data: function() {
+      return Websites.findOne({_id: this.params._id});
+    }
+  });
+});
+
 if (Meteor.isClient) {
 
+  Comments.ui.config({
+    template: 'bootstrap'
+  });
 
   Accounts.ui.config({
     passwordSignupFields: 'USERNAME_AND_EMAIL'
@@ -14,10 +36,13 @@ if (Meteor.isClient) {
   // helper function that returns all available websites
   Template.website_list.helpers({
     websites:function(){
-      return Websites.find({});
+      return Websites.find({}, {sort: {upvotes: -1}});
     }
   });
 
+  Template.registerHelper("prettifyDate", function(timestamp) {
+    return moment(timestamp).format('MM-DD-YYYY');
+  });
 
   /////
   // template events
@@ -32,7 +57,7 @@ if (Meteor.isClient) {
       // put the code in here to add a vote to a website!
       Websites.update(
         {_id: website_id},
-        {$inc: {votes: +1}}
+        {$inc: {upvotes: +1}}
       );
 
       return false;// prevent the button from reloading the page
@@ -47,7 +72,7 @@ if (Meteor.isClient) {
       // put the code in here to remove a vote from a website!
       Websites.update(
         {_id: website_id},
-        {$inc: {votes: -1}}
+        {$inc: {downvotes: -1}}
       );
 
       return false;// prevent the button from reloading the page
@@ -70,7 +95,8 @@ if (Meteor.isClient) {
           url: url,
           description: description,
           createdOn: new Date(),
-          votes: 0
+          upvotes: 0,
+          downvotes: 0
         });
       }
 

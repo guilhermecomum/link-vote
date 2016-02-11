@@ -6,21 +6,39 @@
   display:none;
 }
 
+.websites {
+  margin: 10px 0 0 0;
+  padding: 0;
+}
+
 li {
   list-style: none;
+  margin-bottom: 10px;
 }
 
 .voting, .link {
   display: inline-block;
+  vertical-align: top;
 }
 
 .voting {
   border: 1px solid #DDD;
   border-radius: 3px;
   padding: 5px;
+  text-align: center;
+  margin-right: 5px;
+  width: 65px;
 }
 
 .vote {
   display: block;
   clear: both;
+}
+
+.description {
+  margin-bottom: 0;
+}
+
+.added {
+  color: #bbb;
 }

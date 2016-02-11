@@ -3,7 +3,15 @@
 </head>
 
 <body>
-  <!-- navbar  - you will be putting the login functions here -->
+
+</body>
+
+<template name="ApplicationLayout">
+  {{> navbar}}
+  {{> yield "main"}}
+</template>
+
+<template name="navbar">
   <nav class="navbar navbar-default">
     <div class="container">
       <div class="navbar-header">
@@ -16,13 +24,7 @@
       </ul>
     </div>
   </nav>
-
-  <div class="container">
-    {{> website_form}}
-    {{> website_list}}
-  </div>
-</body>
-
+</template>
 
 <template name="website_form">
   {{#if currentUser}}
@@ -52,11 +54,26 @@
 
 <!-- template that displays several website items -->
 <template name="website_list">
-  <ul>
-    {{#each websites}}
-    {{>website_item}}
-    {{/each}}
-  </ul>
+  <div class="container">
+    <ul class="websites">
+      {{#each websites}}
+      {{>website_item}}
+      {{/each}}
+    </ul>
+  </div>
+</template>
+
+<template name="website_link">
+  <div class="container">
+    <a href="/" class="btn btn-xs btn-warning">Back</a>
+    <h1>{{ title }}</h1>
+    <p class="desc">{{ description }}</p>
+    <a href="{{ url }}" class="btn btn-success" target="_blank">Visit</a>
+    <hr>
+    <div class="comment-section">
+      {{> commentsBox id=_id}}
+    </div>
+  </div>
 </template>
 
 <!-- template that displays individual website entries -->
@@ -65,17 +82,33 @@
     <div class="voting">
       <a href="#" class="vote js-upvote">
         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+        <span class="upvote">
+          {{#if upvotes }}
+          {{upvotes}}
+          {{else}}
+          0
+          {{/if}}
+        </span>
       </a>
-      <span class="score">{{votes}}</span>
       <a href="#" class="vote js-downvote">
         <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+        <span class="downvote">
+          {{#if downvotes }}
+          {{downvotes}}
+          {{else}}
+          0
+          {{/if}}
+        </span>
+
       </a>
     </div>
     <div class="link">
       <a href="{{url}}">{{title}}</a>
-      <p>
+      <p class="description">
         {{description}}
       </p>
+      <span class="added">Added: {{prettifyDate createdOn}} | </span>
+      <a href="/link/{{_id}}">more details</a>
     </div>
 
     <!-- you will be putting your up and down vote buttons in here! -->
